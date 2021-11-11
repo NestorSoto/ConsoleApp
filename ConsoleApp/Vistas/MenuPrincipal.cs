@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,19 @@ namespace ConsoleApp.Vistas
     {
         public static void Options()
         {
-            int op = 0;
+            bool log=login();
+            if (log)
+            {
+                Console.WriteLine("Usted está ingresando como administrador-> ");
+                Administrador.MenuAdmin();
+            }
+            else
+            {
+                Console.WriteLine("Usted está ingresando como Empleado-> ");
+                Empleador.MenuEmploye();
+            }
+
+            /*int op = 0;
             Console.WriteLine("Estacion 911");
             while (op != 3)
             {
@@ -26,17 +39,38 @@ namespace ConsoleApp.Vistas
                         Administrador.MenuAdmin();
                         break;
                     case 2:
-                        Console.WriteLine("Usted está ingresando como administrador-> ");
+                        Console.WriteLine("Usted está ingresando como Empleado-> ");
+                        Empleador.MenuEmploye();
                         break;
                     case 3:
                         Console.WriteLine("Gracias por usar nuestra plataforma ");
                         break;
-                    default:
-                        Console.WriteLine("Digite una opcion valida");
-                        break;
                 }
                 
 
+            }
+            */
+        }
+        static Boolean login()
+        {
+
+
+            using (var user = WindowsIdentity.GetCurrent())
+            {
+                var principal = new WindowsPrincipal(user);
+                // Check for token claim with well-known Administrators group SID
+                const string LOCAL_ADMININSTRATORS_GROUP_SID = "S-1-5-32-544";
+                if (principal.Claims.SingleOrDefault(x => x.Value == LOCAL_ADMININSTRATORS_GROUP_SID) != null)
+                {
+                    Console.WriteLine("es admin");
+                    return true;
+                    
+                }
+                else
+                {
+                    Console.WriteLine("no es admin");
+                    return false;
+                }
             }
         }
     }
