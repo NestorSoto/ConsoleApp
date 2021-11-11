@@ -50,6 +50,10 @@ namespace ConsoleApp.Vistas
                         showCities();
                         administracionRutas();
                         break;
+                    case 3:
+                        Empleador.showRoute();
+
+                        break;
 
 
                 }
@@ -177,20 +181,6 @@ namespace ConsoleApp.Vistas
             {
 
                 Console.WriteLine(reader.GetValue(2) + " || " + reader.GetValue(3)+" || "+ reader.GetValue(1));
-            }
-        }
-        static async Task showRoutes() 
-        {
-            using var connection = mysql.getConexion();
-            await connection.OpenAsync();
-
-            using var command = new MySqlCommand("SELECT * FROM avion;", connection);// cambiar esta consulta
-            using var reader = await command.ExecuteReaderAsync();
-            Console.WriteLine("Mostrando lista de destinos \n Marca || modelo || Capacidad");
-            while (await reader.ReadAsync())
-            {
-
-                Console.WriteLine(reader.GetValue(2) + " || " + reader.GetValue(3) + " || " + reader.GetValue(1));
             }
         }
 

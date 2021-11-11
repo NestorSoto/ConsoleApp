@@ -56,7 +56,7 @@ namespace ConsoleApp.Vistas
                 Console.WriteLine("Pasajero registrado con exito");
             }
         }
-        static async Task showRoute()
+        public static async Task showRoute()
         {
             using var connection = mysql.getConexion();
             await connection.OpenAsync();
